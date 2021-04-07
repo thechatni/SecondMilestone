@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+    {% load static %}
+    /* body  {
+        background: url("{% static 'main/bg1.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: "Courier New";
+
+
+    } */
+
+    body{
+                background-image: url('{% static 'main/background.png' %}');
+                background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+            }
+            .mainPage{
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;;
+}
+
+.mainPage h1 {
+    padding-left: 40px;
+    font-size: 120px;
+    padding-top: 30px;
+    color: #f9f9f9;
+}
+
+.mainPage p {
+    padding-left: 40px;
+    font-size: 30px;
+    padding-top: 10px;
+    color: #f9f9f9;
+}
+
+.mainPage button{
+    margin-top: 30px;
+    font-size: 30px;
+    padding: 10px 20px;
+    color: #f9f9f9;
+    margin-left: 40px;
+    background-color: #ec481c;
+    border: 0px solid;
+    text-transform: uppercase;
+}
+.mainPage button:hover{
+    background-color: #dfdede;
+    color: #ec481c;
+ }
+ .mainPage a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+</style>
+
+<script>
+
+jQuery(document).ready(function($){
+    
+    $('#but').hide();
+    setTimeout(function(){
+  
+        let mic = confirm("Click OK to allow the use of microphone.");
+
+        if( mic ){
+            let cam = confirm("Click OK to allow the use of webcam.");
+            if(cam){
+                $('#but').show();
+            }
+            
+        } // true if OK is pressed
+}, 2000)
+    });
+</script>
+</head>
+<body>
+    <div class="mainPage">
+        <h1>Interrogate</h1>
+        <p>Can you survive the interrogation?</p>
+        <button id='but'><a href="{% url 'narration' %}">Play Now</a></button>
+    </div>
+</body>
+
+</html>

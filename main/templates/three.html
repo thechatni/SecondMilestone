@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html>
+<head
+>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+    {% load static %}
+body  {
+    background: url("{% static 'main/ir.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+ font-family: "Courier New";
+}
+
+    .rain{
+        height: 100vh;
+        background: url("{% static 'main/rain1.png' %}");
+        animation: rain .3s linear infinite;
+    }
+
+    .rain:before{
+
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        animation: lighting .3s linear infinite;
+        opacity: 0;
+
+    }
+
+    @keyframes rain {
+
+        0%{
+            background-position: 0% 0%;
+
+        }
+        100%{
+            background-position: 20% 100%;
+
+        }
+
+    }
+
+.button {
+  background-color: #473134;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 25px;
+    font-family: "Courier New";
+}
+
+
+.button5 {font-size: 24px;}
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fadeInRight {
+    -webkit-animation-name: fadeInRight;
+    animation-name: fadeInRight;
+    animation-duration: 2s;
+}
+
+.fadeInLeft {
+    -webkit-animation-name: fadeInLeft;
+    animation-name: fadeInLeft;
+    animation-delay: 3s;
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    animation-delay: 4s;
+}
+
+.aa a {
+    color: grey;
+    text-decoration: none;
+}
+
+.bb a {
+    color: grey;
+    text-decoration: none;
+}
+</style>
+
+
+<script>
+
+    jQuery(document).ready(function($){
+        $('#readiness').hide();
+        $('#theButton').hide();
+            
+    });
+    
+
+    function getVoice(){
+        $.ajax({
+                type: "POST",
+                url: "/g3/",
+                dataType: "json",
+                async: "true",
+                data:{ 
+                    csrfmiddlewaretoken: '{{csrf_token}}'},
+                success: showVoiceData
+            });
+    }
+
+    function showVoiceData(json){
+        $('#vData').html(json.data);
+        $('#jData').html(json.judge);
+    };
+
+    function getNextArtist(){
+        $('.aa').hide();
+        $('#readiness').slideDown(1500);
+        $('#theButton').fadeIn(4000)
+        
+        $.ajax({
+            type: "POST",
+            url: "/facialexp/",
+            dataType: "json",
+            async: "true",
+            data:{ 
+                csrfmiddlewaretoken: '{{csrf_token}}'},
+            success: showNewArtist
+        });
+
+    }
+
+    function showNewArtist(json){
+        // $('#labl').html(json.label);
+        
+    }
+
+</script>
+</head>
+<body >
+
+
+
+<center>
+<div style="padding-top: 200px">
+
+
+
+<div style="background:rgba(207,44,44,0.3);">
+<div style="padding-top: 10px; padding-bottom: 20px">
+    <div class="aa" >
+    <h1 style="  color: ghostwhite;">Are you ready?</h1>
+    
+        <button class="button button5"><a href='javascript:getNextArtist()' >Yes</a></button>
+        
+    </div>
+    <div id='readiness'>
+        <h1 style="  color: orangered;">QUESTION</h1>
+        <h1 style="  color: ghostwhite;">What was the number plate of the car?</h1>
+    </div>
+        <div id ='theButton' class="bb" >
+            <button id="recbut" class="button button5"><a href='javascript:getVoice()' >Record</a></button>
+        </div>
+    
+
+
+</div>
+<!-- <form method="post">
+    {% csrf_token %} -->
+<!-- <input type="hidden" name="record"> -->
+
+<!-- </form> -->
+
+<div class="">
+    <h1 style="color: ghostwhite; font-size: 24px" id="vData"> </h1>
+    <h1 style="color: #d9a1b5; font-size: 24px;" id="jData"> </h1>
+
+</div>
+
+<div style="padding-bottom: 20px">
+    <a href="{% url 'decision' %}" style="float: right; font-size: 18px; color: white; margin-right: 15px; margin-bottom: 10px " ><b>Get Verdict</b></a>
+
+
+</div>
+</div>
+</div>
+
+</center>
+
+
+
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+</html>
